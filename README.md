@@ -77,7 +77,7 @@ sudo systemctl start docker
 sudo systemctl start docker
 
 
-
+docker run --name centos7_cmake centos7_cmake:v0.0.1 
 
 
 
@@ -96,6 +96,7 @@ docker run --name
 docker run --privileged -it --name mycontainer centos  /bin/bash
 
 
+# 进入到容器内
 docker exec -it  centos7_cmake /bin/bash
 
 
