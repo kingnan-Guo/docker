@@ -15,7 +15,7 @@ docker exec -it ubuntu_cmake /bin/bash
 
 # 复制 
 docker cp cmake-3.31.2.tar.gz eefe4c9d47d5:/home/
-
+docker 
 
 apt install openssl
 apt install libssl-dev
@@ -28,14 +28,51 @@ apt install  wget  git    python3  python3-pip  unzip     openocd   stlink-tools
 make
 make install
 
+# 打包 容器 到镜像
+docker commit ubuntu_cmake ubuntu_cmake:v0.0.1
 
+docker commit ubuntu_cmake ubuntu_cmake:v0.0.2
 
+docker save -o ubuntu_cmake.tar ubuntu_cmake:v0.0.1
 
 
 cat /etc/lsb-release
 
 uname -a
 
+uname -m
+
+
+
+# 配置环境变量
+export CMAKE_HOME=/mnt/cmake-3.31.2/bin
+export PATH=$CMAKE_HOME:$PATH   
+
+
+
+
+# 交叉编译工具链安装 
+
+```markdown
+
+https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads 中找到
+arm-gnu-toolchain-13.2.rel1-x86_64-arm-none-eabi.tar.xz
+
+配置 环境变量
+    vi ~/.bashrc
+    export PATH=$PATH:/opt/packageManager/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/bin/
+重启 环境变量  source ~/.bashrc
+
+
+```
+
+apt install libusbx-devel 会报错
+
+
+
+libusbx-dev
+检查开发包是否安装成功：
+dpkg -l | grep libusb
 
 
 
@@ -44,16 +81,51 @@ uname -a
 
 
 
+# openocd 安装
+apt-get remove --purge openocd
+apt-get autoremove
+
+apt-get  install epel-release
+apt-get install libftdi1-dev libusb-1.0-0-dev
+apt-get install libusb-1.0-0-dev
+apt-get install libcapstone-dev
+apt-get install libftdi1-dev
+
+apt-get install libgpiod-dev
+
+
+参考文章：
+    https://blog.csdn.net/qq_39765790/article/details/133470373
+
+ apt-get install build-essential pkg-config autoconf automake libtool libusb-dev libusb-1.0-0-dev libhidapi-dev
+ apt-get install libtool libsysfs-dev
+
+
+最后进入 /openocd-0.12.0 文件夹开始安装
+    <!-- ./configure --enable-ftdi --enable-openjtag -->
+    ./configure
+    make
+    make install
+
+
+find /usr/local/bin -name openocd
+find / -name stlink.cfg
+
+/usr/local/bin/openocd --version
+
+echo 'export PATH=$PATH:/usr/local/bin' >> ~/.bashrc
+source ~/.bashrc
 
 
 
 
 
+# 使用 stlink 工具
+apt-get install stlink-tools 
 
-
-
-
-
+st-flash --version
+st-info --version
+st-util --version
 
 
 
