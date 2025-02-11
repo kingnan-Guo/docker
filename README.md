@@ -129,6 +129,8 @@ st-util --version
 
 
 
+root@ubuntu-linux-2404:/home/parallels/Downloads# docker run -it  --name uba ubuntu_cmake:v0.0.1 /bin/bash
+WARNING: The requested image's platform (linux/amd64) does not match the detected host platform (linux/arm64/v8) and no specific platform was requested
 
 
 
