@@ -34,7 +34,7 @@ docker commit ubuntu_cmake ubuntu_cmake:v0.0.1
 docker commit ubuntu_cmake ubuntu_cmake:v0.0.2
 
 docker save -o ubuntu_cmake.tar ubuntu_cmake:v0.0.1
-
+docker save -o ubuntu_stm32_build_burn.tar ubuntu_stm32_build_burn:v0.0.2
 
 cat /etc/lsb-release
 
@@ -52,7 +52,7 @@ export PATH=$CMAKE_HOME:$PATH
 
 
 # 交叉编译工具链安装 
-
+docker cp arm-gnu-toolchain-13.2.rel1-x86_64-arm-none-eabi.tar.xz 86d16e132b70:/opt/packageManager
 ```markdown
 
 https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads 中找到
@@ -65,14 +65,16 @@ arm-gnu-toolchain-13.2.rel1-x86_64-arm-none-eabi.tar.xz
 
 
 ```
+arm-none-eabi-gcc -v
 
-apt install libusbx-devel 会报错
+
+<!-- apt install libusbx-devel 会报错
 
 
 
 libusbx-dev
 检查开发包是否安装成功：
-dpkg -l | grep libusb
+dpkg -l | grep libusb -->
 
 
 
@@ -85,21 +87,27 @@ dpkg -l | grep libusb
 apt-get remove --purge openocd
 apt-get autoremove
 
-apt-get  install epel-release
+
+
+
+<!-- apt-get  install epel-release
 apt-get install libftdi1-dev libusb-1.0-0-dev
 apt-get install libusb-1.0-0-dev
 apt-get install libcapstone-dev
 apt-get install libftdi1-dev
 
-apt-get install libgpiod-dev
 
 
+ -->
+
+docker cp openocd-0.12.0.zip 86d16e132b70:/opt/packageManager
 参考文章：
     https://blog.csdn.net/qq_39765790/article/details/133470373
 
  apt-get install build-essential pkg-config autoconf automake libtool libusb-dev libusb-1.0-0-dev libhidapi-dev
  apt-get install libtool libsysfs-dev
-
+apt-get install libgpiod-dev
+apt-get install libcapstone-dev
 
 最后进入 /openocd-0.12.0 文件夹开始安装
     <!-- ./configure --enable-ftdi --enable-openjtag -->
@@ -131,6 +139,47 @@ st-util --version
 
 root@ubuntu-linux-2404:/home/parallels/Downloads# docker run -it  --name uba ubuntu_cmake:v0.0.1 /bin/bash
 WARNING: The requested image's platform (linux/amd64) does not match the detected host platform (linux/arm64/v8) and no specific platform was requested
+
+
+
+
+
+
+
+
+sudo docker run -it --rm --name ubuntu-cmake-container \
+  --device /dev/bus/usb:/dev/bus/usb \
+  --privileged \
+  ubuntu_cmake:v0.0.2 /bin/bash
+
+
+
+
+
+st-info --probe // 打印 连接的设备 
+
+```
+
+
+
+```markdown
+stm32 下 cmake-build-debug
+cmake ../
+make
+
+打包完成后 执行 烧录
+
+openocd -f interface/stlink.cfg -f target/stm32f1x.cfg -c "program stm32F103C8T6Project.elf verify reset exit"
+  
+  
+openocd -f interface/stlink.cfg -f target/stm32f1x.cfg -c "program stm32F103C8T6Project.hex verify reset exit"
+
+
+openocd -f interface/stlink.cfg -f target/stm32f1x.cfg -c "program stm32F103C8T6Project.bin 0x08000000 verify reset exit"
+
+
+
+```
 
 
 
@@ -339,6 +388,12 @@ sudo docker run -it --rm --name centos7-container \
   --privileged \
   --group-add docker \
   centos7_stm32_build_burn:v0.0.2
+
+
+sudo docker run -it --rm --name ubuntu-cmake-container \
+  --device /dev/bus/usb:/dev/bus/usb \
+  --privileged \
+  ubuntu_cmake:v0.0.2 /bin/bash
 
 
 
