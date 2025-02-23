@@ -21,6 +21,7 @@ apt install openssl
 apt install libssl-dev
 apt install  wget  git    python3  python3-pip  unzip     openocd   stlink-tools 
 
+apt install build-essential
 <!-- apt install libssl-dev libusb-devel -->
 
 # 安装 cmake
