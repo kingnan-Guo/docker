@@ -14,7 +14,7 @@ docker exec -it --platform linux/amd64 ubuntu_cmake /bin/bash
 docker exec -it ubuntu_cmake /bin/bash
 
 # 复制 
-docker cp cmake-3.31.2.tar.gz eefe4c9d47d5:/home/
+docker cp cmake-3.31.2.tar.gz eefe4c9d47d5:/ho
 docker 
 
 apt install openssl
@@ -22,6 +22,9 @@ apt install libssl-dev
 apt install  wget  git    python3  python3-pip  unzip     openocd   stlink-tools 
 
 apt install build-essential
+
+sudo apt install libssl-dev
+
 <!-- apt install libssl-dev libusb-devel -->
 
 # 安装 cmake
