@@ -74,4 +74,42 @@ sudo cp arch/arm64/boot/dts/broadcom/*.dtb mnt/boot/
 sudo cp arch/arm64/boot/dts/overlays/*.dtb* mnt/boot/overlays/
 sudo cp arch/arm64/boot/dts/overlays/README mnt/boot/overlays/
 sudo umount mnt/boot
-sudo umount mnt/root
+sudo umount mnt/rootß
+
+
+
+
+
+
+# 给 容器赋值 权限
+docker run -it --rm --name ubuntu_arm64_raspberry_kernel_container \
+  --device /dev/bus/usb:/dev/bus/usb \
+  --privileged \
+  ubuntu_arm64_raspberry_kernel:v0.0.1 /bin/bash
+
+ubuntu_arm_cmake
+docker run -it --rm --name ubuntu_arm_cmake_uboot_container \
+  --device /dev/bus/usb:/dev/bus/usb \
+  --privileged \
+  ubuntu_arm_cmake:v0.0.1 /bin/bash
+
+
+lsblk
+
+# 挂载 sd 卡
+ mount /dev/sdb1 /mnt/boot
+ mount /dev/sdb2 /mnt/root
+
+
+env PATH=$PATH make -j12 ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- INSTALL_MOD_PATH=/mnt/root modules_install
+
+
+cp mnt/boot/$KERNEL.img /mnt/boot/$KERNEL-backup.img
+cp arch/arm64/boot/Image /mnt/boot/$KERNEL.img
+cp arch/arm64/boot/dts/broadcom/*.dtb /mnt/boot/
+cp arch/arm64/boot/dts/overlays/*.dtb* /mnt/boot/overlays/
+cp arch/arm64/boot/dts/overlays/README /mnt/boot/overlays/
+umount /mnt/boot
+umount /mnt/root
+
+
