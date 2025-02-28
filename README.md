@@ -103,7 +103,7 @@ ubuntu_arm_cmake
 docker run -it --rm --name ubuntu_arm_cmake_uboot_container \
   --device /dev/bus/usb:/dev/bus/usb \
   --privileged \
-  ubuntu_arm_cmake:v0.0.1 /bin/bash
+  ubuntu_arm_cmake_uboot:v0.0.1 /bin/bash
 
 
 lsblk
