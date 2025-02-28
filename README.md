@@ -22,12 +22,15 @@ sudo systemctl status ssh
 
 make mrproper
 
+
+
 apt update
 apt install device-tree-compiler
 apt install libncurses5-dev libssl-dev bc bison flex libelf-dev
 
 
-
+make distclean
+make clean
 
 make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- clean
 make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- distclean
@@ -42,6 +45,10 @@ find -name *_defconfig
     如果你正在开发一个针对 Raspberry Pi 4 的 64 位应用，你将使用 aarch64-linux-gnu-gcc
 
 
+    make ARCH=arm CROSS_COMPILE=aarch64-linux-gnu- clean
+    make ARCH=arm CROSS_COMPILE=aarch64-linux-gnu- distclean
+
+
     cd linux
     KERNEL=kernel8
     make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- bcm2711_defconfig
@@ -54,6 +61,11 @@ find -name *_defconfig
 
 # 32-bit
     如果你正在开发一个针对 Raspberry Pi 3 的 32 位应用，你将使用 arm-linux-gnueabihf-gcc
+
+
+    make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- clean
+    make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- distclean
+
 
     cd linux
     KERNEL=kernel7
@@ -74,7 +86,7 @@ sudo cp arch/arm64/boot/dts/broadcom/*.dtb mnt/boot/
 sudo cp arch/arm64/boot/dts/overlays/*.dtb* mnt/boot/overlays/
 sudo cp arch/arm64/boot/dts/overlays/README mnt/boot/overlays/
 sudo umount mnt/boot
-sudo umount mnt/rootß
+sudo umount mnt/root
 
 
 
