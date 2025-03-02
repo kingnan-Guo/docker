@@ -16,6 +16,18 @@ aarch64
 连不上 ubuntu 虚拟机的 ssh
 <!-- sudo apt-get install openssh-server -->
 
+ systemctl status ssh
+ apt install openssh-server
+
+vi /etc/ssh/sshd_config
+
+修改：
+
+# 找到并用#注释掉这行：
+# PermitRootLogin prohibit-password
+# 新建一行 添加：
+PermitRootLogin yes
+
 sudo systemctl restart ssh
 sudo systemctl status ssh
 
