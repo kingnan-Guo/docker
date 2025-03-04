@@ -104,6 +104,15 @@ sudo umount mnt/root
 
 
 
+sudo apt autoremove -y      # 删除不再需要的依赖包
+sudo apt autoclean -y       # 清理旧版本的缓存文件
+sudo apt clean -y           # 清理所有 APT 缓存
+
+
+
+
+
+
 
 # 给 容器赋值 权限
 docker run -it --rm --name ubuntu_arm64_raspberry_kernel_container \
@@ -137,3 +146,7 @@ umount /mnt/boot
 umount /mnt/root
 
 
+
+sudo apt autoremove -y      # 删除不再需要的依赖包
+sudo apt autoclean -y       # 清理旧版本的缓存文件
+sudo apt clean -y           # 清理所有 APT 缓存
